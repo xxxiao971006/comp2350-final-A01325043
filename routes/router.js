@@ -8,7 +8,7 @@ router.get('/', async (req, res) => {
 	
 	try {
 		const result = await dbModel.getAllUsers();
-		res.render('index', {allTodos: result});
+		res.render('index', {allUsers: result});
 
 		//Output the results of the query to the Heroku Logs
 		console.log(result);
