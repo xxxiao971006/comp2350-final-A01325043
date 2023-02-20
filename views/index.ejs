@@ -21,15 +21,20 @@
 								<th> Firstname </th>
 								<th> Lastname </th>
 								<th> Email </th>
+								<th> &nbsp; </th>
 							</tr>
 							</thead>
 							<% let i=0; %>
 							<% for(i=0; i < allUsers.length; i++) { %>
 							<tr>
-								<td><%= allUsers[i].web_user_id %></td>
 								<td><%= allUsers[i].first_name %></td>
 								<td><%= allUsers[i].last_name %></td>
 								<td><%= allUsers[i].email %></td>
+								<td><a href="/deleteUser?id=<%= allUsers[i].web_user_id %>">
+									<span class="icon is-small">
+										<i class="fas fa-user-times"></i>
+									</span></a>
+								</td>
 							</tr>
 							<% } %>
 							<tfoot>
