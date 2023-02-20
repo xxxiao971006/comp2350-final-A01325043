@@ -1,4 +1,4 @@
-const { addUser } = require('../databaseAccessLayer');
+const { addUser, deleteUser, getAllUsers } = require('../databaseAccessLayer');
 
 const router = require('express').Router();
 const database = include('databaseConnection');

@@ -11,6 +11,8 @@ global.include = function(file) {
 const express = require('express');
 const database = include('databaseConnection');
 const router = include('routes/router');
+const bodyParser = require('body-parser')
+
 
 const port = process.env.PORT || 3000;
 
@@ -40,6 +42,10 @@ app.set('view engine', 'ejs');
 app.use('/',router);
 app.use(express.static(__dirname + "/public"));
 app.use(express.urlencoded({extended: false}));
+app.use(bodyParser.urlencoded({ extended: false }));
+app.use(bodyParser.json());
+
+
 
 app.listen(port, () => {
 	console.log("Node application listening on port "+port);

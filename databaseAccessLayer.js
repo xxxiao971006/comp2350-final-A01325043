@@ -21,23 +21,26 @@ async function getAllUsers() {
 
 async function addUser(postData) {
 	let sqlInsertSalt = `
-INSERT INTO web_user (first_name, last_name, email, password_salt)
-VALUES (:first_name, :last_name, :email, sha2(UUID(),512));
-`;
+		INSERT INTO web_user (first_name, last_name, email, password_salt)
+		VALUES (:first_name, :last_name, :email, sha2(UUID(),512));
+		`;
+
 	let params = {
 		first_name: postData.first_name,
 		last_name: postData.last_name,
 		email: postData.email
 	};
+
 	console.log(sqlInsertSalt);
+
 	try {
 		const results = await database.query(sqlInsertSalt, params);
 		let insertedID = results.insertId;
 		let updatePasswordHash = `
-UPDATE web_user
-SET password_hash = sha2(concat(:password,:pepper,password_salt),512)
-WHERE web_user_id = :userId;
-`;
+			UPDATE web_user
+			SET password_hash = sha2(concat(:password,:pepper,password_salt),512)
+			WHERE web_user_id = :userId;
+			`;
 		let params2 = {
 			password: postData.password,
 			pepper: passwordPepper,
@@ -55,9 +58,9 @@ WHERE web_user_id = :userId;
 
 async function deleteUser(webUserId) {
 	let sqlDeleteUser = `
-DELETE FROM web_user
-WHERE web_user_id = :userID
-`;
+		DELETE FROM web_user
+		WHERE web_user_id = :userID
+		`;
 	let params = {
 		userID: webUserId
 	};
