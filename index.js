@@ -39,10 +39,11 @@ const success = printMySQLVersion();
 const app = express();
 app.set('view engine', 'ejs');
 
+app.use(bodyParser.urlencoded({ extended: false }));
+
 app.use('/',router);
 app.use(express.static(__dirname + "/public"));
 app.use(express.urlencoded({extended: false}));
-app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
 
 
