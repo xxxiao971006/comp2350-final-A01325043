@@ -8,7 +8,7 @@ const dbConfigQoddi = {
 	password: "Dr*RW6#5b%&u6Cf",
 	database: "freedb_comp2350-week2-A01325043",
 	multipleStatements: false,
-	namePlaceholders: true
+	namedPlaceholders: true
 };
 
 const dbConfigLocal = {
@@ -17,7 +17,7 @@ const dbConfigLocal = {
 	password: "Password",
 	database: "database1",
 	multipleStatements: false,
-	namePlaceholders: true
+	namedPlaceholders: true
 
 };
 
