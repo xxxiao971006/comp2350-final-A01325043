@@ -120,5 +120,24 @@ async function deleteRestaurant(restaurantId) {
 	}
 }
 
+async function deleteReview(reviewId) {
+	let sqlDeleteReview = `
+		DELETE FROM review
+		WHERE review_id = :reviewID
+		`;
+	let params = {
+		reviewID: reviewId
+	};
+	console.log(sqlDeleteReview);
+	try {
+		await database.query(sqlDeleteReview, params);
+		return true;
+	}
+	catch (err) {
+		console.log(err);
+		return false;
+	}
+}
+
 module.exports = { getAllRestaurants, addRestaurant, deleteRestaurant, 
-	getAllReviews, getRestaurantById }
+	getAllReviews, getRestaurantById, deleteReview }

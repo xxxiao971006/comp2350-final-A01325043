@@ -70,7 +70,7 @@ router.get('/deleteRestaurant', async (req, res) => {
 	if (restaurantId) {
 		const success = await dbModel.deleteRestaurant(restaurantId);
 		if (success) {
-			res.redirect("/");
+			res.redirect("back");
 		}
 		else {
 			res.render('error', { message: 'Error writing to MySQL' });
@@ -99,13 +99,13 @@ router.get('/showReviews', async (req, res) => {
 })
 
 router.get('/deleteReview', async (req, res) => {
-	console.log("delete restaurant");
+	console.log("delete review");
 	console.log(req.query);
-	let restaurantId = req.query.id;
-	if (restaurantId) {
-		const success = await dbModel.deleteRestaurant(restaurantId);
+	let reviewId = req.query.id;
+	if (reviewId) {
+		const success = await dbModel.deleteReview(reviewId);
 		if (success) {
-			res.redirect("/");
+			res.redirect("back");
 		}
 		else {
 			res.render('error', { message: 'Error writing to MySQL' });
