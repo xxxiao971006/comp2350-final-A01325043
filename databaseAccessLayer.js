@@ -1,10 +1,10 @@
 const database = include('/databaseConnection');
 
 
-async function getAllUsers() {
+async function getAllRestaurants() {
 	let sqlQuery = `
-		SELECT web_user_id, first_name, last_name, email
-		FROM web_user;
+		SELECT restaurant_id, name, description
+		FROM restaurant;
 	`;
 	
 	try {
@@ -19,54 +19,31 @@ async function getAllUsers() {
 	}
 }
 
-async function addUser(postData) {
+async function addRestaurant(postData) {
 	let sqlInsertSalt = `
-		INSERT INTO web_user (first_name, last_name, email, password_salt)
-		VALUES (:first_name, :last_name, :email, sha2(UUID(),512));
+		INSERT INTO restaurant name, description)
+		VALUES (:name, :description, );
 		`;
 
 	let params = {
-		first_name: postData.first_name,
-		last_name: postData.last_name,
-		email: postData.email
+		name: postData.restaurant_name,
+		description: postData.description,
 	};
 
-	console.log(sqlInsertSalt);
 
-	try {
-		const results = await database.query(sqlInsertSalt, params);
-		let insertedID = results.insertId;
-		let updatePasswordHash = `
-			UPDATE web_user
-			SET password_hash = sha2(concat(:password,:pepper,password_salt),512)
-			WHERE web_user_id = :userId;
-			`;
-		let params2 = {
-			password: postData.password,
-			pepper: 'passwordPepper',
-			userId: insertedID
-		}
-		console.log(updatePasswordHash);
-		const results2 = await database.query(updatePasswordHash, params2);
-		return true;
-	}
-	catch (err) {
-		console.log(err);
-		return false;
-	}
 }
 
-async function deleteUser(webUserId) {
-	let sqlDeleteUser = `
+async function deleteRestaurant(restaurantId) {
+	let sqlDeleteRestaurant = `
 		DELETE FROM web_user
-		WHERE web_user_id = :userID
+		WHERE restaurant_id = :restaurantID
 		`;
 	let params = {
-		userID: webUserId
+		restaurantID: restaurantId
 	};
-	console.log(sqlDeleteUser);
+	console.log(sqlDeleteRestaurant);
 	try {
-		await database.query(sqlDeleteUser, params);
+		await database.query(sqlDeleteRestaurant, params);
 		return true;
 	}
 	catch (err) {
@@ -75,4 +52,4 @@ async function deleteUser(webUserId) {
 	}
 }
 
-module.exports = { getAllUsers, addUser, deleteUser }
+module.exports = { getAllRestaurants, addRestaurant, deleteRestaurant }
