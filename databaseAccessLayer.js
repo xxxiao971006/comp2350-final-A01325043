@@ -84,11 +84,18 @@ async function addRestaurantReview(postData) {
 		VALUES (:id, :reviewer, :details, :rating );
 		`;
 
+	// let params = {
+	// 	id: Number(postData.restaurantId),
+	// 	reviewer: postData.reviewer_name,
+	// 	details: postData.review,
+	// 	rating: Number(postData.rate)
+	// };
+
 	let params = {
-		id: postData.restaurantId,
-		reviewer: postData.reviewer_name,
-		details: postData.review,
-		rating: postData.rate
+		id: 1,
+		reviewer: Nikki,
+		details: wtf,
+		rating: 2
 	};
 
 	try {
