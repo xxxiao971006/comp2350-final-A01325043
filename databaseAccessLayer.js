@@ -76,13 +76,34 @@ async function addRestaurant(postData) {
 		console.log(err);
 		return false;
 	}
+}
 
+async function addRestaurantReview(postData) {
+	let sqlInsert = `
+		INSERT INTO review (restaurant_id, reviewer_name, details, rating)
+		VALUES (:id, :reviewer, :details, :rating );
+		`;
 
+	let params = {
+		id: req.query.id,
+		reviewer: postData.reviewer_name,
+		details: postData.review,
+		rating: postData.rate
+	};
+
+	try {
+		await database.query(sqlInsert, params);
+		return true;
+	}
+	catch (err) {
+		console.log(err);
+		return false;
+	}
 }
 
 async function deleteRestaurant(restaurantId) {
 	let sqlDeleteRestaurant = `
-		DELETE FROM restaurant
+		DELETE FROM review
 		WHERE restaurant_id = :restaurantID
 		`;
 	let params = {
@@ -99,4 +120,5 @@ async function deleteRestaurant(restaurantId) {
 	}
 }
 
-module.exports = { getAllRestaurants, addRestaurant, deleteRestaurant, getAllReviews, getRestaurantById }
+module.exports = { getAllRestaurants, addRestaurant, deleteRestaurant, 
+	getAllReviews, getRestaurantById }
