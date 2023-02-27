@@ -21,7 +21,7 @@ async function getAllRestaurants() {
 
 async function addRestaurant(postData) {
 	let sqlInsertSalt = `
-		INSERT INTO restaurant name, description)
+		INSERT INTO restaurant (name, description)
 		VALUES (:name, :description, );
 		`;
 
@@ -35,7 +35,7 @@ async function addRestaurant(postData) {
 
 async function deleteRestaurant(restaurantId) {
 	let sqlDeleteRestaurant = `
-		DELETE FROM web_user
+		DELETE FROM restaurant
 		WHERE restaurant_id = :restaurantID
 		`;
 	let params = {
