@@ -47,7 +47,7 @@ router.post('/addReview', async (req, res) => {
 	console.log(req.body);
 
 	try {
-		req.body.restaurantId = 3;
+		req.body.restaurantId = req.query.id;
 		const success = await dbModel.addRestaurantReview(req.body);
 		if (success) {
 			res.redirect("back");
@@ -87,7 +87,7 @@ router.get('/showReviews', async (req, res) => {
 
 	try {
 		const result = await dbModel.getAllReviews(restaurantId);
-		res.render('review', { allReviews: result, restaurantName: restaurantName });
+		res.render('review', { allReviews: result, restaurantName: restaurantName, restaurantId: restaurantId });
 
 		//Output the results of the query to the Heroku Logs
 		console.log(result);
