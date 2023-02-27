@@ -20,7 +20,7 @@ async function getAllRestaurants() {
 }
 
 async function addRestaurant(postData) {
-	let sqlInsertSalt = `
+	let sqlInsert = `
 		INSERT INTO restaurant (name, description)
 		VALUES (:name, :description, );
 		`;
@@ -29,6 +29,15 @@ async function addRestaurant(postData) {
 		name: postData.restaurant_name,
 		description: postData.description,
 	};
+
+	try {
+		await database.query(sqlInsert, params);
+		return true;
+	}
+	catch (err) {
+		console.log(err);
+		return false;
+	}
 
 
 }
