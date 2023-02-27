@@ -42,11 +42,11 @@ async function getRestaurantById(restaurantId) {
 	let sqlQuery = `
 		SELECT name
 		FROM restaurant
-		WHERE restaurant_id = ${restaurantId};
+		WHERE restaurant_id = ?;
 	`;
 
 	try {
-		const results = await database.query(sqlQuery);
+		const results = await database.query(sqlQuery, [restaurantId]);
 		console.log(results[0]);
 		return results[0];
 	}
@@ -88,7 +88,7 @@ async function addRestaurantReview(postData) {
 		id: 1,
 		reviewer: postData.reviewer_name,
 		details: postData.review,
-		rating: Number(postData.rate)
+		rating: 5
 	};
 
 	try {
