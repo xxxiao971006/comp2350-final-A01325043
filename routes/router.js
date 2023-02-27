@@ -40,7 +40,27 @@ router.post('/addRestaurant', async (req, res) => {
 		console.log("Error writing to MySQL");
 		console.log(err);
 	}
+});
 
+router.post('/addReview', async (req, res) => {
+	console.log("form submit");
+	console.log(req.body);
+
+	try {
+		const success = await dbModel.addRestaurantReview(req.body);
+		if (success) {
+			res.redirect("/");
+		}
+		else {
+			res.render('error', { message: "Error writing to MySQL" });
+			console.log("Error writing to MySQL");
+		}
+	}
+	catch (err) {
+		res.render('error', { message: "Error writing to MySQL" });
+		console.log("Error writing to MySQL");
+		console.log(err);
+	}
 });
 
 router.get('/deleteRestaurant', async (req, res) => {
