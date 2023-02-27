@@ -9,8 +9,8 @@ router.get('/', async (req, res) => {
 	console.log("page hit");
 	
 	try {
-		const result = await dbModel.getAllUsers();
-		res.render('index', {allUsers: result});
+		const result = await dbModel.getAllRestaurants();
+		res.render('index', {allRestaurants: result});
 
 		//Output the results of the query to the Heroku Logs
 		console.log(result);
@@ -21,12 +21,12 @@ router.get('/', async (req, res) => {
 	}
 });
 
-router.post('/addUser', async (req, res) => {
+router.post('/addRestaurant', async (req, res) => {
 	console.log("form submit");
 	console.log(req.body);
 
 	try {
-		const success = await dbModel.addUser(req.body);
+		const success = await dbModel.addRestaurant(req.body);
 		if (success) {
 			res.redirect("/");
 		}
@@ -43,12 +43,12 @@ router.post('/addUser', async (req, res) => {
 
 });
 
-router.get('/deleteUser', async (req, res) => {
-	console.log("delete user");
+router.get('/deleteRestaurant', async (req, res) => {
+	console.log("delete restaurant");
 	console.log(req.query);
-	let userId = req.query.id;
-	if (userId) {
-		const success = await dbModel.deleteUser(userId);
+	let restaurantId = req.query.id;
+	if (restaurantId) {
+		const success = await dbModel.deleteRestaurant(restaurantId);
 		if (success) {
 			res.redirect("/");
 		}

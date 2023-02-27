@@ -15,7 +15,7 @@ const dbConfigLocal = {
 	host: "localhost",
 	user: "root",
 	password: "Password",
-	database: "database1",
+	database: "restaurant_review",
 	multipleStatements: false,
 	namedPlaceholders: true
 
