@@ -103,7 +103,7 @@ async function addRestaurantReview(postData) {
 
 async function deleteRestaurant(restaurantId) {
 	let sqlDeleteRestaurant = `
-		DELETE FROM review
+		DELETE FROM restaurant
 		WHERE restaurant_id = :restaurantID
 		`;
 	let params = {
