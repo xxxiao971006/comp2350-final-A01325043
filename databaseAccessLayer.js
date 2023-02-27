@@ -48,7 +48,7 @@ async function getRestaurantById(restaurantId) {
 	try {
 		const results = await database.query(sqlQuery, [restaurantId]);
 		console.log(results[0]);
-		return results[0];
+		return results[0].name;
 	}
 	catch (err) {
 		console.log("Error selecting from review table");
