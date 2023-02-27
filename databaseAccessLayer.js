@@ -95,7 +95,7 @@ async function addRestaurantReview(postData) {
 		id: 1,
 		reviewer: postData.reviewer_name,
 		details: postData.review,
-		rating: 2
+		rating: postData.rate
 	};
 
 	try {
