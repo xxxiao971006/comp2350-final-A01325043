@@ -12,7 +12,7 @@
         <div class="maincolumns columns is-desktop is-vcentered">
             <div class="column is-10 is-offset-1 notification is-info is-light box container">
                 <div class="title">
-                    Reviews for <%= restaurantName %>
+                    Reviews for <%= restaurantName[0].name %>
                 </div>
                 <% if (locals.allReviews) { %>
                     <div class="table-container">
@@ -57,7 +57,7 @@
             </div>
         </div>
 
-        <form action="/addReview" method="post">
+        <form action="/addReview?id=<%= allReviews[i].review_id %>" method="post">
             <div class="field is-horizontal">
                 <div class="field-label is-normal">
                     <label class="label">Add New Review</label>

@@ -48,7 +48,7 @@ async function getRestaurantById(restaurantId) {
 	try {
 		const results = await database.query(sqlQuery, [restaurantId]);
 		console.log(results[0]);
-		return results[0].name;
+		return results[0];
 	}
 	catch (err) {
 		console.log("Error selecting from review table");
@@ -85,10 +85,10 @@ async function addRestaurantReview(postData) {
 		`;
 
 	let params = {
-		id: 1,
+		id: postData.restaurantId,
 		reviewer: postData.reviewer_name,
 		details: postData.review,
-		rating: 5
+		rating: postData.rate
 	};
 
 	try {
