@@ -140,4 +140,4 @@ async function deleteReview(reviewId) {
 }
 
 module.exports = { getAllRestaurants, addRestaurant, deleteRestaurant, 
-	getAllReviews, getRestaurantById, deleteReview }
+	getAllReviews, getRestaurantById, deleteReview, addRestaurantReview }
