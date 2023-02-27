@@ -13,7 +13,45 @@ async function getAllRestaurants() {
 		return results[0];
 	}
 	catch (err) {
-		console.log("Error selecting from todo table");
+		console.log("Error selecting from restaurant table");
+		console.log(err);
+		return null;
+	}
+}
+
+async function getAllReviews(restaurantId) {
+	let sqlQuery = `
+		SELECT review_id, restaurant_id, reviewer_name, details, rating
+		FROM review
+		WHERE restaurant_id = ${restaurantId};
+	`;
+
+	try {
+		const results = await database.query(sqlQuery);
+		console.log(results[0]);
+		return results[0];
+	}
+	catch (err) {
+		console.log("Error selecting from review table");
+		console.log(err);
+		return null;
+	}
+}
+
+async function getRestaurantById(restaurantId) {
+	let sqlQuery = `
+		SELECT name
+		FROM restaurant
+		WHERE restaurant_id = ${restaurantId};
+	`;
+
+	try {
+		const results = await database.query(sqlQuery);
+		console.log(results[0]);
+		return results[0].name;
+	}
+	catch (err) {
+		console.log("Error selecting from review table");
 		console.log(err);
 		return null;
 	}
@@ -61,4 +99,4 @@ async function deleteRestaurant(restaurantId) {
 	}
 }
 
-module.exports = { getAllRestaurants, addRestaurant, deleteRestaurant }
+module.exports = { getAllRestaurants, addRestaurant, deleteRestaurant, getAllReviews, getRestaurantById }
