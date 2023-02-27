@@ -47,7 +47,7 @@ router.post('/addReview', async (req, res) => {
 	console.log(req.body);
 
 	try {
-		req.body.restaurantId = req.query.id;
+		req.body.restaurantId = 3;
 		const success = await dbModel.addRestaurantReview(req.body);
 		if (success) {
 			res.redirect("back");
