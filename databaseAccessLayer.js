@@ -85,7 +85,7 @@ async function addRestaurantReview(postData) {
 		`;
 
 	let params = {
-		id: req.query.id,
+		id: Number(req.query.id),
 		reviewer: postData.reviewer_name,
 		details: postData.review,
 		rating: postData.rate

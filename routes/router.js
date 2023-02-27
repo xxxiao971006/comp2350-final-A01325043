@@ -49,7 +49,7 @@ router.post('/addReview', async (req, res) => {
 	try {
 		const success = await dbModel.addRestaurantReview(req.body);
 		if (success) {
-			res.redirect("/");
+			res.redirect("back");
 		}
 		else {
 			res.render('error', { message: "Error writing to MySQL" });
