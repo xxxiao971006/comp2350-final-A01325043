@@ -1,10 +1,10 @@
 const database = include('/databaseConnection');
 
-
-async function getAllRestaurants() {
+async function getAllItems() {
 	let sqlQuery = `
-		SELECT restaurant_id, name, description
-		FROM restaurant;
+		SELECT purchase_item_id, item_name, item_description, cost, quantity
+		FROM purchase_item
+		;
 	`;
 	
 	try {
@@ -19,53 +19,17 @@ async function getAllRestaurants() {
 	}
 }
 
-async function getAllReviews(restaurantId) {
-	let sqlQuery = `
-		SELECT review_id, restaurant_id, reviewer_name, details, rating
-		FROM review
-		WHERE restaurant_id = ${restaurantId};
-	`;
-
-	try {
-		const results = await database.query(sqlQuery);
-		console.log(results[0]);
-		return results[0];
-	}
-	catch (err) {
-		console.log("Error selecting from review table");
-		console.log(err);
-		return null;
-	}
-}
-
-async function getRestaurantById(restaurantId) {
-	let sqlQuery = `
-		SELECT name
-		FROM restaurant
-		WHERE restaurant_id = ?;
-	`;
-
-	try {
-		const results = await database.query(sqlQuery, [restaurantId]);
-		console.log(results[0]);
-		return results[0];
-	}
-	catch (err) {
-		console.log("Error selecting from review table");
-		console.log(err);
-		return null;
-	}
-}
-
-async function addRestaurant(postData) {
+async function addItem(postData) {
 	let sqlInsert = `
-		INSERT INTO restaurant (name, description)
-		VALUES (:name, :description );
+		INSERT INTO purchase_item (item_name, item_description, cost, quantity)
+		VALUES (:name, :description, :cost, :quantity );
 		`;
 
 	let params = {
-		name: postData.restaurant_name,
+		name: postData.name,
 		description: postData.description,
+		cost: postData.cost,
+		quantity: postData.quantity
 	};
 
 	try {
@@ -78,28 +42,17 @@ async function addRestaurant(postData) {
 	}
 }
 
-async function addRestaurantReview(postData) {
-	let sqlInsert = `
-		INSERT INTO review (restaurant_id, reviewer_name, details, rating)
-		VALUES (:id, :reviewer, :details, :rating );
+async function deleteItem(itemId) {
+	let sqlDeleteItem = `
+		DELETE FROM purchase_item
+		WHERE purchase_item_id = :itemId
 		`;
-
-	// let params = {
-	// 	id: Number(postData.restaurantId),
-	// 	reviewer: postData.reviewer_name,
-	// 	details: postData.review,
-	// 	rating: Number(postData.rate)
-	// };
-
 	let params = {
-		id: Number(postData.restaurantId),
-		reviewer: postData.reviewer_name,
-		details: postData.review,
-		rating: postData.rate
+		itemId: Number(itemId)
 	};
-
+	console.log(sqlDeleteItem);
 	try {
-		await database.query(sqlInsert, params);
+		await database.query(sqlDeleteItem, params);
 		return true;
 	}
 	catch (err) {
@@ -108,17 +61,18 @@ async function addRestaurantReview(postData) {
 	}
 }
 
-async function deleteRestaurant(restaurantId) {
-	let sqlDeleteRestaurant = `
-		DELETE FROM restaurant
-		WHERE restaurant_id = :restaurantID
+async function addQuantity(itemId) {
+	let sqlAddQuantity = `
+		UPDATE purchase_item
+		SET quantity = quantity + 1
+		WHERE purchase_item_id = :itemId
 		`;
 	let params = {
-		restaurantID: restaurantId
+		itemId: Number(itemId)
 	};
-	console.log(sqlDeleteRestaurant);
+	console.log(sqlAddQuantity);
 	try {
-		await database.query(sqlDeleteRestaurant, params);
+		await database.query(sqlAddQuantity, params);
 		return true;
 	}
 	catch (err) {
@@ -127,17 +81,18 @@ async function deleteRestaurant(restaurantId) {
 	}
 }
 
-async function deleteReview(reviewId) {
-	let sqlDeleteReview = `
-		DELETE FROM review
-		WHERE review_id = :reviewID
+async function minusQuantity(itemId) {
+	let sqlMinusQuantity = `
+		UPDATE purchase_item
+		SET quantity = quantity - 1
+		WHERE purchase_item_id = :itemId
 		`;
 	let params = {
-		reviewID: reviewId
+		itemId: Number(itemId)
 	};
-	console.log(sqlDeleteReview);
+	console.log(sqlMinusQuantity);
 	try {
-		await database.query(sqlDeleteReview, params);
+		await database.query(sqlMinusQuantity, params);
 		return true;
 	}
 	catch (err) {
@@ -146,5 +101,4 @@ async function deleteReview(reviewId) {
 	}
 }
 
-module.exports = { getAllRestaurants, addRestaurant, deleteRestaurant, 
-	getAllReviews, getRestaurantById, deleteReview, addRestaurantReview }
+module.exports = { getAllItems, addItem, deleteItem, addQuantity, minusQuantity }

@@ -1,4 +1,4 @@
-const { addUser, deleteUser, getAllUsers } = require('../databaseAccessLayer');
+const { addAuthor, deleteAuthor, getAllAuthors } = require('../databaseAccessLayer');
 
 const router = require('express').Router();
 const database = include('databaseConnection');
@@ -9,8 +9,8 @@ router.get('/', async (req, res) => {
 	console.log("page hit");
 	
 	try {
-		const result = await dbModel.getAllRestaurants();
-		res.render('index', {allRestaurants: result});
+		const result = await dbModel.getAllItems();
+		res.render('index', {allItems: result});
 
 		//Output the results of the query to the Heroku Logs
 		console.log(result);
@@ -21,12 +21,12 @@ router.get('/', async (req, res) => {
 	}
 });
 
-router.post('/addRestaurant', async (req, res) => {
+router.post('/addItem', async (req, res) => {
 	console.log("form submit");
 	console.log(req.body);
 
 	try {
-		const success = await dbModel.addRestaurant(req.body);
+		const success = await dbModel.addItem(req.body);
 		if (success) {
 			res.redirect("/");
 		}
@@ -42,34 +42,13 @@ router.post('/addRestaurant', async (req, res) => {
 	}
 });
 
-router.post('/addReview', async (req, res) => {
-	console.log("form submit");
-	console.log(req.body);
 
-	try {
-		req.body.restaurantId = req.query.id;
-		const success = await dbModel.addRestaurantReview(req.body);
-		if (success) {
-			res.redirect("back");
-		}
-		else {
-			res.render('error', { message: "Error writing to MySQL" });
-			console.log("Error writing to MySQL");
-		}
-	}
-	catch (err) {
-		res.render('error', { message: "Error writing to MySQL" });
-		console.log("Error writing to MySQL");
-		console.log(err);
-	}
-});
-
-router.get('/deleteRestaurant', async (req, res) => {
-	console.log("delete restaurant");
+router.get('/deleteItem', async (req, res) => {
+	console.log("delete author");
 	console.log(req.query);
-	let restaurantId = req.query.id;
-	if (restaurantId) {
-		const success = await dbModel.deleteRestaurant(restaurantId);
+	let itemId = req.query.id;
+	if (itemId) {
+		const success = await dbModel.deleteItem(itemId);
 		if (success) {
 			res.redirect("back");
 		}
@@ -81,30 +60,13 @@ router.get('/deleteRestaurant', async (req, res) => {
 	}
 });
 
-router.get('/showReviews', async (req, res) => {
-	let restaurantId = req.query.id;
-	let restaurantName = await dbModel.getRestaurantById(restaurantId);
 
-	try {
-		const result = await dbModel.getAllReviews(restaurantId);
-		res.render('review', { allReviews: result, restaurantName: restaurantName, restaurantId: restaurantId });
-
-		//Output the results of the query to the Heroku Logs
-		console.log(result);
-	}
-	catch (err) {
-		res.render('error', { message: 'Error reading from MySQL' });
-		console.log("Error reading from mysql");
-	}
-
-})
-
-router.get('/deleteReview', async (req, res) => {
-	console.log("delete review");
+router.get('/addQuantity', async (req, res) => {
+	console.log("add quantity");
 	console.log(req.query);
-	let reviewId = req.query.id;
-	if (reviewId) {
-		const success = await dbModel.deleteReview(reviewId);
+	let itemId = req.query.id;
+	if (itemId) {
+		const success = await dbModel.addQuantity(itemId);
 		if (success) {
 			res.redirect("back");
 		}
@@ -115,4 +77,22 @@ router.get('/deleteReview', async (req, res) => {
 		}
 	}
 });
+
+router.get('/minusQuantity', async (req, res) => {
+	console.log("add quantity");
+	console.log(req.query);
+	let itemId = req.query.id;
+	if (itemId) {
+		const success = await dbModel.minusQuantity(itemId);
+		if (success) {
+			res.redirect("back");
+		}
+		else {
+			res.render('error', { message: 'Error writing to MySQL' });
+			console.log("Error writing to mysql");
+			console.log(err);
+		}
+	}
+});
+
 module.exports = router;
